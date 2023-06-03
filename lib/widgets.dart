@@ -133,14 +133,14 @@ class _PressableCardState extends State<PressableCard>
 /// use on both iOS and Android as part of their brand's unique design.
 class HeroAnimatingSongCard extends StatelessWidget {
   const HeroAnimatingSongCard({
-    required this.song,
+    required this.taskType,
     required this.color,
     required this.heroAnimation,
     this.onPressed,
     super.key,
   });
 
-  final String song;
+  final String taskType;
   final Color color;
   final Animation<double> heroAnimation;
   final VoidCallback? onPressed;
@@ -165,7 +165,7 @@ class HeroAnimatingSongCard extends StatelessWidget {
           child: SizedBox(
             height: 250,
             child: Stack(
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               children: [
                 // The song title banner slides off in the hero animation.
                 Positioned(
@@ -178,7 +178,7 @@ class HeroAnimatingSongCard extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Text(
-                      song,
+                      taskType,
                       style: const TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w500,
@@ -191,16 +191,15 @@ class HeroAnimatingSongCard extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 45) *
                       (1 - heroAnimation.value),
                   child: Container(
-                    height: playButtonSize,
-                    width: playButtonSize,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.black12,
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(Icons.play_arrow,
-                        size: playButtonSize, color: Colors.black38),
-                  ),
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: const Text(
+                        "看电影",
+                        style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
                 ),
               ],
             ),

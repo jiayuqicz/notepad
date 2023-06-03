@@ -24,10 +24,19 @@ class MyAdaptingApp extends StatelessWidget {
       title: 'Adaptive Music App',
       theme: ThemeData(
         // Use the green theme for Material widgets.
-        primarySwatch: Colors.green,
+        brightness: Brightness.dark,
         useMaterial3: true,
       ),
-      darkTheme: ThemeData.dark(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        /* dark theme settings */
+      ),
+      themeMode: ThemeMode.dark,
+      /* ThemeMode.system to follow system theme,
+         ThemeMode.light for light theme,
+         ThemeMode.dark for dark theme
+      */
+
       builder: (context, child) {
         return CupertinoTheme(
           // Instead of letting Cupertino widgets auto-adapt to the Material

@@ -6,12 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'song_detail_tab.dart';
-import 'utils.dart';
 import 'widgets.dart';
 
 class SongsTab extends StatefulWidget {
-  static const title = 'Songs';
+  static const title = '该干啥';
   static const androidIcon = Icon(Icons.music_note);
   static const iosIcon = Icon(CupertinoIcons.music_note);
 
@@ -24,7 +22,7 @@ class SongsTab extends StatefulWidget {
 }
 
 class _SongsTabState extends State<SongsTab> {
-  static const _itemsLength = 50;
+  static const _itemsLength = 3;
 
   final _androidRefreshKey = GlobalKey<RefreshIndicatorState>();
 
@@ -38,8 +36,12 @@ class _SongsTabState extends State<SongsTab> {
   }
 
   void _setData() {
-    colors = getRandomColors(_itemsLength);
-    songNames = getRandomNames(_itemsLength);
+    colors = [
+      Colors.blueGrey,
+      Colors.brown,
+      Colors.indigo,
+    ];
+    songNames = ["长期习惯", "本周任务", "每日任务"];
   }
 
   Future<void> _refreshData() {
@@ -65,10 +67,11 @@ class _SongsTabState extends State<SongsTab> {
       child: Hero(
         tag: index,
         child: HeroAnimatingSongCard(
-          song: songNames[index],
+          taskType: songNames[index],
           color: color,
           heroAnimation: const AlwaysStoppedAnimation(0),
-          onPressed: () => Navigator.of(context).push<void>(
+          onPressed: () {},
+/*          onPressed: () => Navigator.of(context).push<void>(
             MaterialPageRoute(
               builder: (context) => SongDetailTab(
                 id: index,
@@ -76,7 +79,7 @@ class _SongsTabState extends State<SongsTab> {
                 color: color,
               ),
             ),
-          ),
+          ),*/
         ),
       ),
     );
@@ -123,7 +126,7 @@ class _SongsTabState extends State<SongsTab> {
           ),
         ],
       ),
-      drawer: widget.androidDrawer,
+      // drawer: widget.androidDrawer,
       body: RefreshIndicator(
         key: _androidRefreshKey,
         onRefresh: _refreshData,
