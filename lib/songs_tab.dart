@@ -27,7 +27,7 @@ class _SongsTabState extends State<SongsTab> {
   final _androidRefreshKey = GlobalKey<RefreshIndicatorState>();
 
   late List<MaterialColor> colors;
-  late List<String> songNames;
+  late List<String> taskType;
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _SongsTabState extends State<SongsTab> {
       Colors.brown,
       Colors.indigo,
     ];
-    songNames = ["长期习惯", "本周任务", "每日任务"];
+    taskType = ["长期习惯", "本周任务", "每日任务"];
   }
 
   Future<void> _refreshData() {
@@ -61,27 +61,17 @@ class _SongsTabState extends State<SongsTab> {
         ? colors[index]
         : colors[index].shade400;
 
+    HeroAnimatingSongCard songCard = HeroAnimatingSongCard(
+      taskType: taskType[index],
+      color: color,
+      heroAnimation: const AlwaysStoppedAnimation(0),
+      onPressed: () {},
+    );
+
     return SafeArea(
       top: false,
       bottom: false,
-      child: Hero(
-        tag: index,
-        child: HeroAnimatingSongCard(
-          taskType: songNames[index],
-          color: color,
-          heroAnimation: const AlwaysStoppedAnimation(0),
-          onPressed: () {},
-/*          onPressed: () => Navigator.of(context).push<void>(
-            MaterialPageRoute(
-              builder: (context) => SongDetailTab(
-                id: index,
-                song: songNames[index],
-                color: color,
-              ),
-            ),
-          ),*/
-        ),
-      ),
+      child: Hero(tag: index, child: songCard),
     );
   }
 

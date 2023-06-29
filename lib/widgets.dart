@@ -27,6 +27,38 @@ class PlatformWidget extends StatelessWidget {
   }
 }
 
+class TaskWidget extends StatefulWidget {
+  const TaskWidget({super.key});
+
+  @override
+  State<TaskWidget> createState() => TaskContent();
+}
+
+class TaskContent extends State<TaskWidget> {
+  String text = "看电影";
+
+  @override
+  Widget build(BuildContext context) {
+    return Listener(
+        onPointerDown: (details) {
+          setState(() {
+            text = "看话剧";
+          });
+        },
+        onPointerUp: (details) {},
+        child: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              text,
+              style: const TextStyle(
+                fontSize: 21,
+                fontWeight: FontWeight.w500,
+              ),
+            )));
+  }
+}
+
 /// A platform-agnostic card with a high elevation that reacts when tapped.
 ///
 /// This is an example of a custom widget that an app developer might create for
@@ -188,19 +220,9 @@ class HeroAnimatingSongCard extends StatelessWidget {
                 ),
                 // The play button grows in the hero animation.
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 45) *
-                      (1 - heroAnimation.value),
-                  child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: const Text(
-                        "看电影",
-                        style: TextStyle(
-                          fontSize: 21,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      )),
-                ),
+                    padding: const EdgeInsets.only(bottom: 45) *
+                        (1 - heroAnimation.value),
+                    child: const TaskWidget()),
               ],
             ),
           ),
