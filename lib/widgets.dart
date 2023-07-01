@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import 'utils.dart';
+
 /// A simple widget that builds different things on different platforms.
 class PlatformWidget extends StatelessWidget {
   const PlatformWidget({
@@ -28,21 +30,29 @@ class PlatformWidget extends StatelessWidget {
 }
 
 class TaskWidget extends StatefulWidget {
-  const TaskWidget({super.key});
+  const TaskWidget(this.taskIndex, {super.key});
+
+  final int taskIndex;
 
   @override
   State<TaskWidget> createState() => TaskContent();
 }
 
 class TaskContent extends State<TaskWidget> {
-  String text = "看电影";
+  late String text;
+
+  @override
+  void initState() {
+    super.initState();
+    text = taskContentList[widget.taskIndex];
+  }
 
   @override
   Widget build(BuildContext context) {
     return Listener(
         onPointerDown: (details) {
           setState(() {
-            text = "看话剧";
+            text = taskContentList[widget.taskIndex];
           });
         },
         onPointerUp: (details) {},
@@ -110,9 +120,7 @@ class _PressableCardState extends State<PressableCard>
   Widget build(context) {
     return Listener(
       onPointerDown: (details) {
-        if (widget.onPressed != null) {
-          controller.forward();
-        }
+        controller.forward();
       },
       onPointerUp: (details) {
         controller.reverse();
@@ -199,17 +207,13 @@ class _CheckState extends State<CheckState> {
 /// use on both iOS and Android as part of their brand's unique design.
 class HeroAnimatingSongCard extends StatelessWidget {
   const HeroAnimatingSongCard({
-    required this.taskType,
-    required this.color,
+    required this.taskIndex,
     required this.heroAnimation,
-    this.onPressed,
     super.key,
   });
 
-  final String taskType;
-  final Color color;
+  final int taskIndex;
   final Animation<double> heroAnimation;
-  final VoidCallback? onPressed;
 
   double get playButtonSize => 50 + 50 * heroAnimation.value;
 
@@ -225,8 +229,8 @@ class HeroAnimatingSongCard extends StatelessWidget {
       animation: heroAnimation,
       builder: (context, child) {
         return PressableCard(
-          onPressed: heroAnimation.value == 0 ? onPressed : null,
-          color: color,
+          onPressed: () {},
+          color: colorsList[taskIndex],
           flattenAnimation: heroAnimation,
           child: SizedBox(
             height: 250,
@@ -244,7 +248,7 @@ class HeroAnimatingSongCard extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Text(
-                      taskType,
+                      taskTypeList[taskIndex],
                       style: const TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w500,
@@ -260,9 +264,10 @@ class HeroAnimatingSongCard extends StatelessWidget {
                 ),
                 // The play button grows in the hero animation.
                 Padding(
-                    padding: const EdgeInsets.only(bottom: 45) *
-                        (1 - heroAnimation.value),
-                    child: const TaskWidget()),
+                  padding: const EdgeInsets.only(bottom: 45) *
+                      (1 - heroAnimation.value),
+                  child: TaskWidget(taskIndex),
+                )
               ],
             ),
           ),

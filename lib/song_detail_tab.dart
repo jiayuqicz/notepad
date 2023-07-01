@@ -31,26 +31,6 @@ class SongDetailTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Hero(
-            tag: id,
-            child: HeroAnimatingSongCard(
-              taskType: song,
-              color: color,
-              heroAnimation: const AlwaysStoppedAnimation(1),
-            ),
-            // This app uses a flightShuttleBuilder to specify the exact widget
-            // to build while the hero transition is mid-flight.
-            //
-            // It could either be specified here or in SongsTab.
-            flightShuttleBuilder: (context, animation, flightDirection,
-                fromHeroContext, toHeroContext) {
-              return HeroAnimatingSongCard(
-                taskType: song,
-                color: color,
-                heroAnimation: animation,
-              );
-            },
-          ),
           const Divider(
             height: 0,
             color: Colors.grey,

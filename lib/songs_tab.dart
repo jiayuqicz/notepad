@@ -26,44 +26,24 @@ class _SongsTabState extends State<SongsTab> {
 
   final _androidRefreshKey = GlobalKey<RefreshIndicatorState>();
 
-  late List<MaterialColor> colors;
-  late List<String> taskType;
-
   @override
   void initState() {
-    _setData();
     super.initState();
-  }
-
-  void _setData() {
-    colors = [
-      Colors.blueGrey,
-      Colors.brown,
-      Colors.indigo,
-    ];
-    taskType = ["长期习惯", "本周任务", "每日任务"];
   }
 
   Future<void> _refreshData() {
     return Future.delayed(
       // This is just an arbitrary delay that simulates some network activity.
       const Duration(seconds: 2),
-      () => setState(() => _setData()),
+      () => setState(() {}),
     );
   }
 
   Widget _listBuilder(BuildContext context, int index) {
     if (index >= _itemsLength) return Container();
 
-    // Show a slightly different color palette. Show poppy-ier colors on iOS
-    // due to lighter contrasting bars and tone it down on Android.
-    final color = defaultTargetPlatform == TargetPlatform.iOS
-        ? colors[index]
-        : colors[index].shade400;
-
     HeroAnimatingSongCard songCard = HeroAnimatingSongCard(
-      taskType: taskType[index],
-      color: color,
+      taskIndex: index,
       heroAnimation: const AlwaysStoppedAnimation(0),
     );
 

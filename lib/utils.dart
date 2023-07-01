@@ -72,3 +72,13 @@ String capitalize(String word) {
 String capitalizePair(WordPair pair) {
   return '${capitalize(pair.first)} ${capitalize(pair.second)}';
 }
+
+const List<MaterialColor> colorsList = [
+  Colors.blueGrey,
+  Colors.brown,
+  Colors.indigo,
+];
+
+const List<String> taskTypeList = ["长期习惯", "本周任务", "每日任务"];
+
+const List<String> taskContentList = ["看电影", "看话剧", "逛超市"];
