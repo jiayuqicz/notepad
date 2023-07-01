@@ -156,6 +156,40 @@ class _PressableCardState extends State<PressableCard>
   }
 }
 
+class CheckState extends StatefulWidget {
+  const CheckState({super.key});
+
+  @override
+  State<CheckState> createState() => _CheckState();
+}
+
+class _CheckState extends State<CheckState> {
+  bool hasFinished = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 80,
+      color: Colors.black12,
+      alignment: Alignment.centerRight,
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      child: Listener(
+        onPointerDown: (details) {
+          setState(() {
+            hasFinished = !hasFinished;
+          });
+        },
+        onPointerUp: (details) {},
+        child: Checkbox(
+          value: hasFinished,
+          checkColor: Colors.brown,
+          onChanged: (value) {},
+        ),
+      ),
+    );
+  }
+}
+
 /// A platform-agnostic card representing a song which can be in a card state,
 /// a flat state or anything in between.
 ///
@@ -217,6 +251,12 @@ class HeroAnimatingSongCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                ),
+                Positioned(
+                  bottom: -80 * heroAnimation.value,
+                  left: 0,
+                  right: 0,
+                  child: const CheckState(),
                 ),
                 // The play button grows in the hero animation.
                 Padding(

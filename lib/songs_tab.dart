@@ -65,7 +65,6 @@ class _SongsTabState extends State<SongsTab> {
       taskType: taskType[index],
       color: color,
       heroAnimation: const AlwaysStoppedAnimation(0),
-      onPressed: () {},
     );
 
     return SafeArea(
