@@ -120,7 +120,9 @@ class _PressableCardState extends State<PressableCard>
   Widget build(context) {
     return Listener(
       onPointerDown: (details) {
-        controller.forward();
+        if (animationActive) {
+          controller.forward();
+        }
       },
       onPointerUp: (details) {
         controller.reverse();
@@ -174,6 +176,41 @@ class CheckState extends StatefulWidget {
 class _CheckState extends State<CheckState> {
   bool hasFinished = false;
 
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('任务状态'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('是否标记为完成状态？'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('已完成'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                setState(() {});
+              },
+            ),
+            TextButton(
+              child: const Text('未完成'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+                setState(() {});
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -182,18 +219,22 @@ class _CheckState extends State<CheckState> {
       alignment: Alignment.centerRight,
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Listener(
-        onPointerDown: (details) {
-          setState(() {
-            hasFinished = !hasFinished;
-          });
-        },
-        onPointerUp: (details) {},
-        child: Checkbox(
-          value: hasFinished,
-          checkColor: Colors.brown,
-          onChanged: (value) {},
-        ),
-      ),
+          onPointerDown: (details) {
+            _showMyDialog().then((value) => hasFinished = value as bool);
+          },
+          onPointerUp: (details) {},
+          child: MouseRegion(
+              child: Checkbox(
+                value: hasFinished,
+                checkColor: Colors.brown,
+                onChanged: (value) {},
+              ),
+              onEnter: (s) {
+                animationActive = false;
+              },
+              onExit: (s) {
+                animationActive = true;
+              })),
     );
   }
 }
