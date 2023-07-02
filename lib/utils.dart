@@ -83,4 +83,6 @@ const List<String> taskTypeList = ["长期习惯", "本周任务", "每日任务
 
 List<String> taskContentList = ["看电影", "看话剧", "逛超市"];
 
+List<bool> taskStateList = [true, false, false];
+
 bool animationActive = true;

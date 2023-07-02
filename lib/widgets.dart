@@ -60,6 +60,7 @@ class TaskContent extends State<TaskWidget> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
+                    autofocus: true,
                     onChanged: (value) {
                       inputTask = value;
                     },
@@ -212,15 +213,15 @@ class _PressableCardState extends State<PressableCard>
 }
 
 class CheckState extends StatefulWidget {
-  const CheckState({super.key});
+  const CheckState({super.key, required this.taskIndex});
+
+  final int taskIndex;
 
   @override
   State<CheckState> createState() => _CheckState();
 }
 
 class _CheckState extends State<CheckState> {
-  bool hasFinished = false;
-
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
@@ -265,14 +266,17 @@ class _CheckState extends State<CheckState> {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Listener(
           onPointerDown: (details) {
-            _showMyDialog().then((value) => hasFinished = value as bool);
+            _showMyDialog().then(
+                (value) => taskStateList[widget.taskIndex] = value as bool);
           },
           onPointerUp: (details) {},
           child: MouseRegion(
               child: Checkbox(
-                value: hasFinished,
+                value: taskStateList[widget.taskIndex],
                 checkColor: Colors.brown,
-                onChanged: (value) {},
+                onChanged: (value) {
+                  taskStateList[widget.taskIndex] = value as bool;
+                },
               ),
               onEnter: (s) {
                 animationActive = false;
@@ -346,7 +350,7 @@ class HeroAnimatingSongCard extends StatelessWidget {
                   bottom: -80 * heroAnimation.value,
                   left: 0,
                   right: 0,
-                  child: const CheckState(),
+                  child: CheckState(taskIndex: taskIndex),
                 ),
                 // The play button grows in the hero animation.
                 Padding(
