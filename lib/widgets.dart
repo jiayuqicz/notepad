@@ -45,6 +45,12 @@ class TaskContent extends State<TaskWidget> {
   void initState() {
     super.initState();
     inputTask = "";
+    getData().whenComplete(() {
+      setState(() {});
+      if (kDebugMode) {
+        print("get data finish.");
+      }
+    });
   }
 
   Future<void> _showMyDialog() async {
@@ -98,6 +104,7 @@ class TaskContent extends State<TaskWidget> {
             bool res = value as bool;
             if (res && inputTask.isNotEmpty) {
               taskContentList[widget.taskIndex] = inputTask;
+              saveData();
             }
           });
         },
@@ -145,13 +152,13 @@ class _PressableCardState extends State<PressableCard>
 
   @override
   void initState() {
+    super.initState();
     controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 40),
     );
     elevationAnimation =
         controller.drive(CurveTween(curve: Curves.easeInOutCubic));
-    super.initState();
   }
 
   @override
@@ -222,6 +229,17 @@ class CheckState extends StatefulWidget {
 }
 
 class _CheckState extends State<CheckState> {
+  @override
+  void initState() {
+    super.initState();
+    getData().whenComplete(() {
+      setState(() {});
+      if (kDebugMode) {
+        print("get data finish.");
+      }
+    });
+  }
+
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
@@ -276,6 +294,7 @@ class _CheckState extends State<CheckState> {
                 checkColor: Colors.brown,
                 onChanged: (value) {
                   taskStateList[widget.taskIndex] = value as bool;
+                  saveData();
                 },
               ),
               onEnter: (s) {

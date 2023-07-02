@@ -7,6 +7,7 @@ import 'dart:math';
 import 'package:english_words/english_words.dart';
 // ignore: implementation_imports
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // This file has a number of platform-agnostic non-Widget utility functions.
 
@@ -86,3 +87,27 @@ List<String> taskContentList = ["看电影", "看话剧", "逛超市"];
 List<bool> taskStateList = [true, false, false];
 
 bool animationActive = true;
+
+Future<void> saveData() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setStringList("taskContext", taskContentList);
+  await prefs.setBool("task0", taskStateList[0]);
+  await prefs.setBool("task1", taskStateList[1]);
+  await prefs.setBool("task2", taskStateList[2]);
+}
+
+Future<void> getData() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  if (prefs.getStringList("taskContext") != null) {
+    taskContentList = prefs.getStringList("taskContext")!;
+  }
+  if (prefs.getBool("task0") != null) {
+    taskStateList[0] = prefs.getBool("task0")!;
+  }
+  if (prefs.getBool("task1") != null) {
+    taskStateList[1] = prefs.getBool("task1")!;
+  }
+  if (prefs.getBool("task2") != null) {
+    taskStateList[2] = prefs.getBool("task2")!;
+  }
+}

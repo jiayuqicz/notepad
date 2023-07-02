@@ -31,6 +31,11 @@ class _SongsTabState extends State<SongsTab> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   Future<void> _refreshData() {
     return Future.delayed(
       // This is just an arbitrary delay that simulates some network activity.
