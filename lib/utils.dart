@@ -81,6 +81,6 @@ const List<MaterialColor> colorsList = [
 
 const List<String> taskTypeList = ["长期习惯", "本周任务", "每日任务"];
 
-const List<String> taskContentList = ["看电影", "看话剧", "逛超市"];
+List<String> taskContentList = ["看电影", "看话剧", "逛超市"];
 
 bool animationActive = true;

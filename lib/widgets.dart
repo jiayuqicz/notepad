@@ -39,20 +39,65 @@ class TaskWidget extends StatefulWidget {
 }
 
 class TaskContent extends State<TaskWidget> {
-  late String text;
+  late String inputTask;
 
   @override
   void initState() {
     super.initState();
-    text = taskContentList[widget.taskIndex];
+    inputTask = "";
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('请输入任务内容'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    onChanged: (value) {
+                      inputTask = value;
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('确定'),
+              onPressed: () {
+                Navigator.of(context).pop(true);
+                setState(() {});
+              },
+            ),
+            TextButton(
+              child: const Text('取消'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+                setState(() {});
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Listener(
         onPointerDown: (details) {
-          setState(() {
-            text = taskContentList[widget.taskIndex];
+          _showMyDialog().then((value) {
+            bool res = value as bool;
+            if (res && inputTask.isNotEmpty) {
+              taskContentList[widget.taskIndex] = inputTask;
+            }
           });
         },
         onPointerUp: (details) {},
@@ -60,7 +105,7 @@ class TaskContent extends State<TaskWidget> {
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             child: Text(
-              text,
+              taskContentList[widget.taskIndex],
               style: const TextStyle(
                 fontSize: 21,
                 fontWeight: FontWeight.w500,
