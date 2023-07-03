@@ -45,7 +45,7 @@ class TaskContent extends State<TaskWidget> {
   void initState() {
     super.initState();
     inputTask = "";
-    getData().whenComplete(() {
+    getTask(widget.taskIndex).whenComplete(() {
       setState(() {});
       if (kDebugMode) {
         print("get data finish.");
@@ -104,7 +104,7 @@ class TaskContent extends State<TaskWidget> {
             bool res = value as bool;
             if (res && inputTask.isNotEmpty) {
               taskContentList[widget.taskIndex] = inputTask;
-              saveData();
+              saveTask(widget.taskIndex);
             }
           });
         },
@@ -232,7 +232,7 @@ class _CheckState extends State<CheckState> {
   @override
   void initState() {
     super.initState();
-    getData().whenComplete(() {
+    getTask(widget.taskIndex).whenComplete(() {
       setState(() {});
       if (kDebugMode) {
         print("get data finish.");
@@ -294,7 +294,7 @@ class _CheckState extends State<CheckState> {
                 checkColor: Colors.brown,
                 onChanged: (value) {
                   taskStateList[widget.taskIndex] = value as bool;
-                  saveData();
+                  saveTask(widget.taskIndex);
                 },
               ),
               onEnter: (s) {

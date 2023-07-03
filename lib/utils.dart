@@ -84,30 +84,39 @@ const List<String> taskTypeList = ["长期习惯", "本周任务", "每日任务
 
 List<String> taskContentList = ["看电影", "看话剧", "逛超市"];
 
-List<bool> taskStateList = [true, false, false];
+List<bool> taskStateList = [false, false, false];
 
 bool animationActive = true;
 
-Future<void> saveData() async {
+Future<void> saveTask(int taskIndex) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setStringList("taskContext", taskContentList);
-  await prefs.setBool("task0", taskStateList[0]);
-  await prefs.setBool("task1", taskStateList[1]);
-  await prefs.setBool("task2", taskStateList[2]);
+  // 任务内容
+  await prefs.setString("taskContext$taskIndex", taskContentList[taskIndex]);
+  // 任务完成状态
+  await prefs.setBool("task$taskIndex", taskStateList[taskIndex]);
+  // 任务完成时间
+  DateTime now = DateTime.now();
+  await prefs.setInt("time$taskIndex", now.day);
 }
 
-Future<void> getData() async {
+Future<void> getTask(int taskIndex) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  if (prefs.getStringList("taskContext") != null) {
-    taskContentList = prefs.getStringList("taskContext")!;
+  if (prefs.getString("taskContext$taskIndex") != null) {
+    taskContentList[taskIndex] = prefs.getString("taskContext$taskIndex")!;
   }
-  if (prefs.getBool("task0") != null) {
-    taskStateList[0] = prefs.getBool("task0")!;
+  if (prefs.getBool("task$taskIndex") != null) {
+    taskStateList[taskIndex] = prefs.getBool("task$taskIndex")!;
   }
-  if (prefs.getBool("task1") != null) {
-    taskStateList[1] = prefs.getBool("task1")!;
-  }
-  if (prefs.getBool("task2") != null) {
-    taskStateList[2] = prefs.getBool("task2")!;
+  if (prefs.getInt("time$taskIndex") != null) {
+    int finishedDay = prefs.getInt("time$taskIndex")!;
+    int nowDay = DateTime.now().day;
+    if ((nowDay > finishedDay) && (taskIndex == 0)) {
+      taskStateList[taskIndex] = false;
+    }
+    if ((nowDay > finishedDay) &&
+        (DateTime.now().weekday == 1) &&
+        (taskIndex == 1)) {
+      taskStateList[taskIndex] = false;
+    }
   }
 }
